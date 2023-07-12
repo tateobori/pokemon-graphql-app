@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+  # データベースコンテナ
+  pokemon-mysql:
+    image: mysql:8.0.27
+    container_name: pokemon-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_DATABASE: pokemon_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    restart: always
+    networks:
+      - pokemon-network
+  # Go APIサーバー
+  server: 
+    build: ./
+    depends_on:
+      - pokemon-mysql
+    container_name: pokemon-graphql-go-server
+    ports:
+      - 8000:8000
+    environment:
+      MYSQL_HOST: pokemon-mysql
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_DATABASE: pokemon_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    networks:
+      - pokemon-network
+
+networks:
+  pokemon-network:
+    driver: bridge
+
+  # cli:
+  #   image: mysql:8.0.27
+  #   networks:
+  #     - mysql-network
+  #   command: mysql -hmysql -uuser -ppassword pokemon_db

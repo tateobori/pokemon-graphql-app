@@ -1,0 +1,12 @@
+# codegen.yml
+schema: schema.graphql
+documents: graphql/**/*.graphql
+ignoreNoDocuments: true,
+generates:
+  lib/generated/client.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-query
+    config:
+      fetcher: graphql-request

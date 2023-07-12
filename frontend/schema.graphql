@@ -1,0 +1,20 @@
+type Pokemon {
+  id: ID!
+  pokeId: Int!
+  name: String!
+  baseStats: BaseStats 
+}
+
+type BaseStats {
+  total: Int!
+  hp: Int!
+  attack: Int!
+  defence: Int!
+  spAttack: Int!
+  spDefence: Int!
+  speed: Int!
+}
+
+type Query {
+  getPokemon(name: String!): Pokemon
+}
